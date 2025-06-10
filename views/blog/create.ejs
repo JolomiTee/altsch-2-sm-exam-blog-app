@@ -1,7 +1,7 @@
 <%- include('../partials/header', { title: 'Create Blog' , user }) %>
 
 	<h2>Create a New Blog</h2>
-	<form action="/blogs" method="POST">
+	<form action="/api/v1/blog/create" method="POST">
 		<div>
 			<label>Blog Title:</label>
 			<input type="text" name="title" placeholder="Title" required>
@@ -23,8 +23,8 @@
 		</div>
 
 		<select name="state">
-			<option value="draft" <%=blog.state==='draft' ? 'selected' : '' %>>Draft</option>
-			<option value="published" <%=blog.state==='published' ? 'selected' : '' %>>Published</option>
+			<option value="draft">Draft</option>
+			<option value="published">Published</option>
 		</select>
 
 		<div>
