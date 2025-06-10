@@ -1,0 +1,19 @@
+<%- include('../partials/header', { title: blog.title, user }) %>
+
+	<h2>
+		<%= blog.title %>
+	</h2>
+	<p>By <%= blog.author.first_name %>
+			<%= blog.author.last_name %>
+	</p>
+	<p>
+		<%= blog.description %>
+	</p>
+	<p>
+		<%= blog.body %>
+	</p>
+	<p>Tags: <%= blog.tags.join(', ') %></p>
+<p>Read count: <%= blog.read_count %></p>
+<p>Estimated reading time: <%= blog.reading_time %> min</p>
+
+<%- include(' ../partials/footer') %>

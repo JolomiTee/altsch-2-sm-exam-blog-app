@@ -1,0 +1,20 @@
+<%- include('../partials/header', { title: 'My Blogs' , user }) %>
+
+	<h2>My Blogs</h2>
+
+	<ul>
+		<% blogs.forEach(blog=> { %>
+			<li>
+				<strong>
+					<%= blog.title %>
+				</strong>
+				(<%= blog.state %>) -
+					<a href="/blogs/<%= blog._id %>/edit">Edit</a>
+					<form action="/blogs/<%= blog._id %>?_method=DELETE" method="POST" style="display:inline;">
+						<button type="submit">Delete</button>
+					</form>
+			</li>
+			<% }) %>
+	</ul>
+
+	<%- include('../partials/footer') %>

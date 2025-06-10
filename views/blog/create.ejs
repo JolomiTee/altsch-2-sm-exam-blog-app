@@ -1,0 +1,35 @@
+<%- include('../partials/header', { title: 'Create Blog' , user }) %>
+
+	<h2>Create a New Blog</h2>
+	<form action="/blogs" method="POST">
+		<div>
+			<label>Blog Title:</label>
+			<input type="text" name="title" placeholder="Title" required>
+		</div>
+
+		<div>
+			<label>Description:</label>
+			<textarea name="description" placeholder="Description" required></textarea>
+		</div>
+
+		<div>
+			<label>Tags</label>
+			<input type="text" name="tags" placeholder="Comma-separated tags">
+		</div>
+
+		<div>
+			<label>Content</label>
+			<textarea name="body" placeholder="Content" required></textarea>
+		</div>
+
+		<select name="state">
+			<option value="draft" <%=blog.state==='draft' ? 'selected' : '' %>>Draft</option>
+			<option value="published" <%=blog.state==='published' ? 'selected' : '' %>>Published</option>
+		</select>
+
+		<div>
+			<button type="submit">Create</button>
+		</div>
+	</form>
+
+	<%- include('../partials/footer') %>

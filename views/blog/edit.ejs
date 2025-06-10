@@ -1,0 +1,16 @@
+<%- include('../partials/header', { title: 'Edit Blog' , user }) %>
+
+	<h2>Edit Blog</h2>
+	<form action="/blogs/<%= blog._id %>?_method=PUT" method="POST">
+		<input type="text" name="title" value="<%= blog.title %>" required>
+		<textarea name="description" required><%= blog.description %></textarea>
+		<input type="text" name="tags" value="<%= blog.tags.join(', ') %>">
+		<textarea name="body" required><%= blog.body %></textarea>
+		<select name="state">
+			<option value="draft" <%=blog.state==='draft' ? 'selected' : '' %>>Draft</option>
+			<option value="published" <%=blog.state==='published' ? 'selected' : '' %>>Published</option>
+		</select>
+		<button type="submit">Update</button>
+	</form>
+
+	<%- include('../partials/footer') %>
