@@ -1,0 +1,35 @@
+{
+	"name": "altsch-2-sm-exam-blog-app",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "NODE_ENV=development nodemon",
+		"start": "NODE_ENV=production node dist/server.js",
+		"build": "npm install && npx tsc"
+	},
+	"keywords": [],
+	"author": {
+		"name": "Jolomi Taiwo",
+		"email": "jolomitee@gmail.com",
+		"url": "https://jolomitee-v2.vercel.app"
+	},
+	"license": "ISC",
+	"type": "commonjs",
+	"dependencies": {
+		"bcrypt": "^6.0.0",
+		"body-parser": "^2.2.0",
+		"cookie-parser": "^1.4.7",
+		"cors": "^2.8.5",
+		"dotenv": "^16.5.0",
+		"ejs": "^3.1.10",
+		"express": "^5.1.0",
+		"express-rate-limit": "^7.5.0",
+		"helmet": "^8.1.0",
+		"jsonwebtoken": "^9.0.2",
+		"mongoose": "^8.15.1",
+		"morgan": "^1.10.0",
+		"nodemon": "^3.1.10",
+		"winston": "^3.17.0"
+	}
+}
