@@ -1,15 +1,19 @@
 const moogoose = require("mongoose");
-
+const bcrypt = require("bcrypt");
 //Define a schema
 const Schema = moogoose.Schema;
 
 //Define author schema
 const userSchema = new Schema({
-	firstname: {
+	first_name: {
 		type: String,
 		required: true,
 	},
-	lastname: {
+	last_name: {
+		type: String,
+		required: false,
+	},
+	email_address: {
 		type: String,
 		required: false,
 	},

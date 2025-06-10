@@ -1,4 +1,5 @@
 const express = require("express");
+const { logOut } = require("../controllers/auth.controller");
 const router = express.Router();
 
 router.get("/", (req, res) =>
@@ -17,6 +18,8 @@ router.get("/signup", (req, res) =>
 router.get("/login", (req, res) =>
 	res.render("auth/login", { user: req.user })
 );
+
+
 
 module.exports = router;
 
