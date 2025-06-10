@@ -1,8 +1,12 @@
 <%- include('../partials/header.ejs', {title: "Login" , user}) %>
 	<h2>Login</h2>
-	<form action="/login" method="POST">
-		<input type="email" name="email" placeholder="Email" required>
-		<input type="password" name="password" placeholder="Password" required>
+	<form action="/api/v1/auth/login1" method="POST">
+		<label>Email:</label>
+		<input name="email" type="email" required />
+	
+		<label>Password:</label>
+		<input name="password" type="password" required />
+
 		<button type="submit">Login</button>
 	</form>
 

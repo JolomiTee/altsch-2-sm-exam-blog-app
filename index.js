@@ -13,6 +13,8 @@ const rateLimit = require("express-rate-limit");
 const { connectToMongoDB } = require("./config/connectDb");
 
 const authRoutes = require("./routes/auth.route");
+const blogRoutes = require("./routes/blog.route");
+const viewRoutes = require("./routes/views.route");
 const Blog = require("./models/blog.model");
 const cookieParser = require("cookie-parser");
 const PORT = 3000;
@@ -46,18 +48,12 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 
 // routes go here
-app.get("/", async (req, res) => {
-	// const blogs = await Blog.find({ state: "published" })
-	// 	.limit(5)
-	// 	.populate("author");
-	res.render("index", {
-		title: "Home",
-		user: req.user,
-		blogs: [],
-	});
-});
 
-app.get("/api/v1", authRoutes);
+app.use("/", viewRoutes);
+
+app.use("/api/v1/auth", authRoutes);
+
+app.use("/api/v1/blog", blogRoutes);
 
 
 // Error handler middleware
