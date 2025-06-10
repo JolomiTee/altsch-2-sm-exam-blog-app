@@ -1,0 +1,38 @@
+<%- include('./partials/header', {
+	 title: 'Home' ,
+	 user
+	 }) %>
+
+	<h2>Welcome to the Blogging API App</h2>
+
+	<p>This is a simple blogging platform where anyone can read published blogs, and registered users can create and
+		manage their own content.</p>
+
+	<% if (!user) { %>
+		<p>
+			<a href="/signup">Sign up</a> or <a href="/login">Login</a> to start writing blogs.
+		</p>
+		<% } else { %>
+			<p>
+				<a href="/blogs/create">Write a new blog</a> or <a href="/blogs/my">Manage your blogs</a>
+			</p>
+			<% } %>
+
+				<h3>Recent Published Blogs</h3>
+
+				<ul>
+					<% blogs.forEach(blog=> { %>
+						<li>
+							<a href="/blogs/<%= blog._id %>">
+								<%= blog.title %>
+							</a>
+							<p>
+								<%= blog.description %>
+							</p>
+							<small>By <%= blog.author.first_name %>
+									<%= blog.author.last_name %> - <%= blog.reading_time %> min read</small>
+						</li>
+						<% }) %>
+				</ul>
+
+				<%- include('./partials/footer') %>
