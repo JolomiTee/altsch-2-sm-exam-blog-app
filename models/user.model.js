@@ -4,7 +4,7 @@ const moogoose = require("mongoose");
 const Schema = moogoose.Schema;
 
 //Define author schema
-const UserSchema = new Schema({
+const userSchema = new Schema({
 	firstname: {
 		type: String,
 		required: true,
@@ -23,5 +23,16 @@ const UserSchema = new Schema({
 	},
 });
 
+userSchema.pre("save", async function (next) {
+	if (!this.isModified("password")) return next();
+	const salt = await bcrypt.genSalt(10);
+	this.password = await bcrypt.hash(this.password, salt);
+	next();
+});
+
+userSchema.methods.comparePassword = function (inputPassword) {
+	return bcrypt.compare(inputPassword, this.password);
+};
+
 // Export the model
-module.exports = moogoose.model("User", UserSchema);
+module.exports = moogoose.model("User", userSchema);
