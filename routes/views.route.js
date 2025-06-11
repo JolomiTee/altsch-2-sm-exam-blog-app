@@ -1,6 +1,6 @@
 const express = require("express");
 const Blog = require("../models/blog.model");
-const { getBlog } = require("../controllers/blog.controller");
+const { getAllBlogs } = require("../controllers/blog.controller");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -13,6 +13,8 @@ router.get("/", async (req, res) => {
 		blogs,
 	});
 });
+
+// AUTH
 router.get("/signup", (req, res) =>
 	res.render("auth/signup", { user: req.user })
 );
@@ -20,9 +22,7 @@ router.get("/login", (req, res) =>
 	res.render("auth/login", { user: req.user })
 );
 
-// BLOGS
-
-router.get("/blog/:id", getBlog);
+router.get("/all", getAllBlogs);
 
 
 

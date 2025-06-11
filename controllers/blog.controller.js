@@ -1,17 +1,28 @@
 const Blog = require("../models/blog.model");
 const { calculateReadingTime } = require("../utils");
-const { generateToken } = require("../utils/jwt");
 
+// done
+const getAllBlogs = async (req, res) => {
+	const blogs = await Blog.find({ state: "published" })
+		.limit(5)
+		.populate("author");
+	res.render("blog/all-blogs", {
+		title: "All Blogs",
+		user: req.user,
+		blogs,
+	});
+};
 
 const getOwnBlogs = async (req, res) => {
-		try {
-			const blogs = await Blog.find({ author: req.user._id });
-			res.json(blogs);
-		} catch (err) {
-			res.status(500).json({ error: err.message });
-		}
-}
+	try {
+		const blogs = await Blog.find({ author: req.user._id });
+		res.render("blog/manage", { user: req.user, blogs });
+	} catch (err) {
+		res.status(500).json({ error: err.message });
+	}
+};
 
+// done
 const getBlog = async (req, res) => {
 	const { id } = req.params;
 	try {
@@ -28,9 +39,9 @@ const getBlog = async (req, res) => {
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
-}
+};
 
-
+// done
 const createBlog = async (req, res) => {
 	try {
 		const { title, description, tags, body } = req.body;
@@ -45,7 +56,6 @@ const createBlog = async (req, res) => {
 			author: req.user._id,
 		});
 		res.redirect("/?create=success");
-
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
@@ -68,7 +78,7 @@ const editBlog = async (req, res) => {
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
-}
+};
 
 const deleteBlog = async (req, res) => {
 	try {
@@ -82,7 +92,7 @@ const deleteBlog = async (req, res) => {
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
-}
+};
 
 const publishBlog = async (req, res) => {
 	try {
@@ -98,5 +108,13 @@ const publishBlog = async (req, res) => {
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
-}
-module.exports = {createBlog, editBlog, publishBlog, deleteBlog, getOwnBlogs, getBlog}
+};
+module.exports = {
+	createBlog,
+	editBlog,
+	publishBlog,
+	deleteBlog,
+	getOwnBlogs,
+	getAllBlogs,
+	getBlog,
+};

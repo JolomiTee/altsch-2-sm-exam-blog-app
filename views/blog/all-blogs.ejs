@@ -1,0 +1,27 @@
+<%- include('../partials/header', {
+	 title,
+	 user
+	 }) %>
+
+	<h2>
+		<%= title %>
+	</h2>
+
+
+	<ul>
+		<% blogs.forEach(blog=> { %>
+			<li>
+				<a href="/api/v1/blog/<%= blog._id %>">
+					<%= blog.title %>
+				</a>
+				<p>
+					<%= blog.description %>
+				</p>
+				<small>By <%= blog.author.first_name %>
+						<%= blog.author.last_name %> - <%= blog.reading_time %> min read</small>
+			</li>
+			<% }) %>
+	</ul>
+
+
+<%- include('../partials/footer') %>

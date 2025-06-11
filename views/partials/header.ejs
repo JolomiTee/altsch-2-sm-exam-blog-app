@@ -13,7 +13,7 @@
 			justify-content: space-between;
 			align-items: center;
 		}
-	
+
 		.navlinks {
 			display: flex;
 			align-items: center;
@@ -32,13 +32,11 @@
 			<div class="navlinks">
 
 				<% if (user) { %>
-					<a href="/blogs">All Blogs</a>
+					<a href="/all">All Blogs</a>
 					<a href="/api/v1/blog/create">Create</a>
-					<!-- ...existing code... -->
 					<form action="api/v1/auth/logout" method="POST" style="display: inline;">
 						<button type="submit">Logout</button>
 					</form>
-					<!-- ...existing code... -->
 					<% } else { %>
 						<a href="/login">Login</a>
 						<a href="/signup">Signup</a>
