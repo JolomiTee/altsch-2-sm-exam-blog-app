@@ -13,12 +13,21 @@ const getOwnBlogs = async (req, res) => {
 }
 
 const getBlog = async (req, res) => {
-		try {
-			const blogs = await Blog.find({ _id: req.blog._id });
-			res.json(blogs);
-		} catch (err) {
-			res.status(500).json({ error: err.message });
+	const { id } = req.params;
+	try {
+		const blog = await Blog.findById(id).populate(
+			"author",
+			"first_name last_name email"
+		);
+
+		if (!blog) {
+			return res.status(404).send("Blog not found");
 		}
+
+		res.render("blog/blog", { user: req.user, blog });
+	} catch (err) {
+		res.status(500).json({ error: err.message });
+	}
 }
 
 

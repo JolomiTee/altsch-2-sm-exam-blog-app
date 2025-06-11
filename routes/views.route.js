@@ -1,6 +1,6 @@
 const express = require("express");
 const Blog = require("../models/blog.model");
-const { logOut } = require("../controllers/auth.controller");
+const { getBlog } = require("../controllers/blog.controller");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -20,12 +20,10 @@ router.get("/login", (req, res) =>
 	res.render("auth/login", { user: req.user })
 );
 
-
 // BLOGS
 
-// router.get("/blog/:id", (req, res) =>
-// 	res.render("blog/blog", { user: req.user })
-// );
+router.get("/blog/:id", getBlog);
+
 
 
 module.exports = router;

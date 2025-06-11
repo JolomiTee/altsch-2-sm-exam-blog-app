@@ -46,16 +46,15 @@ app.use(express.json());
 app.set("views", "views");
 app.set("view engine", "ejs");
 
-// routes go here
+// my routes
 
-app.use("/", viewRoutes);
+app.use("/", viewRoutes); // Done
 
-app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/auth", authRoutes); // Done
 
-app.use("/api/v1/blog", blogRoutes);
+app.use("/api/v1/blog", blogRoutes); // In progress
 
 
-// Error handler middleware
 app.use((err, req, res, next) => {
 	console.log(err);
 	const errorStatus = err.status || 500;
