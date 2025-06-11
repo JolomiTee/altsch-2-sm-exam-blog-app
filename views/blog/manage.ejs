@@ -1,20 +1,49 @@
 <%- include('../partials/header', { title: 'My Blogs' , user }) %>
 
-	<h2>My Blogs</h2>
+	<h1>Manage Your Blogs</h1>
+	
+	<% if (blogs.length===0) { %>
+		<p>You have not created any blogs yet.</p>
+		<% } %>
 
-	<ul>
-		<% blogs.forEach(blog=> { %>
-			<li>
-				<strong>
-					<%= blog.title %>
-				</strong>
-				(<%= blog.state %>) -
-					<a href="/blogs/<%= blog._id %>/edit">Edit</a>
-					<form action="/blogs/<%= blog._id %>?_method=DELETE" method="POST" style="display:inline;">
-						<button type="submit">Delete</button>
-					</form>
-			</li>
-			<% }) %>
-	</ul>
+			<ul>
+				<% blogs.forEach(blog=> { %>
+					<li>
+						<h3>
+							<%= blog.title %>
+								<a href="/api/v1/blog/<%= blog._id %>/edit">Edit</a>
+								</h3>
+								<p>
+									<%= blog.description %>
+								</p>
+								<p>State: <%= blog.state %>
+								</p>
+								
+								<% if (blog.state==="draft" ) { %>
+									<!-- Publish button -->
+									<form action="/api/v1/blog/<%= blog._id %>/publish" method="POST">
+										<button type="submit">Publish</button>
+									</form>
+									<% } %>
+								
+										<!-- Edit form
+																														<form action="/api/v1/blog/<%= blog._id %>/edit" method="POST">
+																															<input type="text" name="title" value="<%= blog.title %>" required />
+																															<textarea name="description" required><%= blog.description %></textarea>
+																															<input type="text" name="tags" value="<%= blog.tags.join(', ') %>" />
+																															<textarea name="body" required><%= blog.body %></textarea>
+																															<button type="submit">Edit Blog</button>
+																														</form> -->
+								
+										<!-- Delete button -->
+										<form action="/api/v1/blog/<%= blog._id %>/delete" method="POST"
+												onsubmit="return confirm('Are you sure?');">
+											<button type="submit">Delete</button>
+										</form>
 
-	<%- include('../partials/footer') %>
+					</li>
+					<% }); %>
+						</ul>
+
+
+			<%- include('../partials/footer') %>

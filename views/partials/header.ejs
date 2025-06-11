@@ -27,21 +27,31 @@
 	<header>
 		<nav class="nav">
 			<h1>
-				Joloo Blog API
+				<a href="/">
+					Blog API
+				</a>
 			</h1>
-			<div class="navlinks">
+			<% if (user) { %>
+				<button>
+					<b>
+						<%= user.first_name %>
+					</b>
+				</button>
+				<% } %>
+					<nav class="navlinks">
 
 				<% if (user) { %>
 					<a href="/all">All Blogs</a>
+					<a href="/api/v1/blog/my-blogs">My Blogs</a>
 					<a href="/api/v1/blog/create">Create</a>
-					<form action="api/v1/auth/logout" method="POST" style="display: inline;">
+					<form action="/api/v1/auth/logout" method="POST" style="display: inline;">
 						<button type="submit">Logout</button>
 					</form>
 					<% } else { %>
 						<a href="/login">Login</a>
 						<a href="/signup">Signup</a>
 						<% } %>
-			</div>
+			</nav>
 		</nav>
 
 	</header>

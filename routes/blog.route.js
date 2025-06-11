@@ -18,13 +18,17 @@ router.post("/create", createBlog);
 // 2. Get blogs
 router.get("/my-blogs", getOwnBlogs);
 
+// 6. Get blog
 router.get("/:id", getBlog);
-router.put("/:id", editBlog);
-router.delete("/:id", deleteBlog);
-router.patch("/:id", publishBlog);
 
+// 3. Publish blog
+router.post("/:id/publish", publishBlog);
 
-// router.post("/edit", editBlog);
-// router.get("/delete", deleteBlog);
+// 4. Edit blog
+router.post("/:id/edit", editBlog);
+
+// 5. Delete blog
+router.post("/:id/delete", deleteBlog);
+
 
 module.exports = router;
