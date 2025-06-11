@@ -62,6 +62,24 @@ const createBlog = async (req, res) => {
 	}
 };
 
+
+const getEditableBlog = async (req, res) => {
+	try {
+		const blog = await Blog.findOne({
+			_id: req.params.id,
+			author: req.user._id,
+		});
+
+		if (!blog) {
+			return res.status(404).send("Blog not found");
+		}
+
+		res.render("blog/edit", { user: req.user, blog });
+	} catch (err) {
+		res.status(500).send(err.message);
+	}
+};
+
 const editBlog = async (req, res) => {
 	try {
 		const blog = await Blog.findOne({
@@ -70,12 +88,18 @@ const editBlog = async (req, res) => {
 		});
 		if (!blog) return res.status(404).json({ error: "Blog not found" });
 
-		Object.assign(blog, req.body);
+		const allowedUpdates = ["title", "description", "tags", "body"];
+		allowedUpdates.forEach((field) => {
+			if (req.body[field] !== undefined) {
+				blog[field] = req.body[field];
+			}
+		});
+
 		if (req.body.body) {
 			blog.reading_time = calculateReadingTime(req.body.body);
 		}
 		await blog.save();
-		res.json({ message: "Blog updated", blog });
+		res.redirect("/api/v1/blog/my-blogs?message=edited");
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
@@ -117,6 +141,7 @@ const publishBlog = async (req, res) => {
 module.exports = {
 	createBlog,
 	editBlog,
+	getEditableBlog,
 	publishBlog,
 	deleteBlog,
 	getOwnBlogs,

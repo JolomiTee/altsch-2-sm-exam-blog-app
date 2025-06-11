@@ -1,16 +1,38 @@
 <%- include('../partials/header', { title: 'Edit Blog' , user }) %>
 
 	<h2>Edit Blog</h2>
-	<form action="/blogs/<%= blog._id %>?_method=PUT" method="POST">
-		<input type="text" name="title" value="<%= blog.title %>" required>
-		<textarea name="description" required><%= blog.description %></textarea>
-		<input type="text" name="tags" value="<%= blog.tags.join(', ') %>">
-		<textarea name="body" required><%= blog.body %></textarea>
-		<select name="state">
-			<option value="draft" <%=blog.state==='draft' ? 'selected' : '' %>>Draft</option>
-			<option value="published" <%=blog.state==='published' ? 'selected' : '' %>>Published</option>
-		</select>
-		<button type="submit">Update</button>
+	<form action="/api/v1/blog/<%= blog._id %>/edit" method="POST">
+		<div>
+			<label>Blog Title:</label>
+			<input type="text" name="title" value="<%= blog.title %>" required>
+		</div>
+		
+		<div>
+			<label for="description">Description</label>
+			<textarea name="description" required><%= blog.description %></textarea>
+		</div>
+		
+		<div>
+			<label for="tags">Tags</label>
+			<input type="text" name="tags" value="<%= blog.tags.join(', ') %>">
+		</div>
+		
+		<div>
+			<label for="body">Body</label>
+			<textarea name="body" required><%= blog.body %></textarea>
+		</div>
+		
+		<div>
+			<label for="state">State</label>
+			<select name="state">
+				<option value="draft" <%=blog.state==='draft' ? 'selected' : '' %>>Draft</option>
+				<option value="published" <%=blog.state==='published' ? 'selected' : '' %>>Published</option>
+			</select>
+		</div>
+		
+		<div>
+			<button type="submit">Update</button>
+		</div>
 	</form>
 
 	<%- include('../partials/footer') %>

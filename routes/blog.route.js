@@ -4,6 +4,7 @@ const {
 	getOwnBlogs,
 	createBlog,
 	editBlog,
+	getEditableBlog,
 	deleteBlog,
 	publishBlog,
 } = require("../controllers/blog.controller");
@@ -25,10 +26,11 @@ router.get("/:id", getBlog);
 router.post("/:id/publish", publishBlog);
 
 // 4. Edit blog
+router.get("/:id/edit", getEditableBlog);
+
 router.post("/:id/edit", editBlog);
 
 // 5. Delete blog
 router.post("/:id/delete", deleteBlog);
-
 
 module.exports = router;
