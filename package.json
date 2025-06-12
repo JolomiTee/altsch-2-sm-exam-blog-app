@@ -4,9 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "NODE_ENV=development nodemon",
-		"start": "NODE_ENV=production node dist/server.js",
-		"build": "npm install && npx tsc",
+		"start": "node index.js",
+		"dev": "nodemon",
 		"test": "jest --runInBand --coverage"
 	},
 	"keywords": [],
