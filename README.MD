@@ -89,4 +89,11 @@ The API is fully documented on Postman:
 ## Tests
 
 Test files are located in the `/tests` folder.
-You can run tests using your preferred test runner (e.g. Jest, Mocha, Supertest).
+
+## License
+
+MIT License
+
+## Author
+
+Built by [Jolomi Taiwo](https://github.com/JolomiTee) 💻

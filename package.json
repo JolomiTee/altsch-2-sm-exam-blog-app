@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "NODE_ENV=development nodemon",
 		"start": "NODE_ENV=production node dist/server.js",
-		"build": "npm install && npx tsc"
+		"build": "npm install && npx tsc",
+		"test": "jest --runInBand --coverage"
 	},
 	"keywords": [],
 	"author": {
