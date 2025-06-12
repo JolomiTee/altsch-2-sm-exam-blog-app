@@ -86,6 +86,7 @@ const getAllBlogs = async (req, res) => {
 	}
 };
 
+// done
 const getOwnBlogs = async (req, res) => {
 	try {
 		const {
@@ -123,14 +124,24 @@ const getOwnBlogs = async (req, res) => {
 
 		const total = await Blog.countDocuments(query);
 
-		res.render("blog/manage", {
-			title: "My Blogs",
-			user: req.user,
+		// res.render("blog/manage", {
+		// {fields}
+		// });
+
+		//? Postman
+		res.status(200).json({
+			title: "All Blogs",
+			description:
+				"Returned the first 20 blogs while being paginated so that you can get the next 20 blogs when you increment the current page parameter",
+			loggedInAs:
+				{
+					full_name: `${req.user.first_name} ${req.user.last_name}`,
+					email_address: req.user.email_address,
+				} || "No logged in user",
 			blogs,
 			totalPages: Math.ceil(total / limit),
 			currentPage: Number(page),
 			search,
-			state,
 			sort_by,
 			order,
 		});
@@ -158,7 +169,8 @@ const getBlog = async (req, res) => {
 			await blog.save();
 		}
 
-		res.render("blog/blog", { user: req.user, blog });
+		// res.render("blog/blog", { user: req.user, blog });
+		res.status(200).json(blog);
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
@@ -179,7 +191,12 @@ const createBlog = async (req, res) => {
 			state,
 			author: req.user._id,
 		});
-		res.redirect("/?create=success");
+		// res.redirect("/?create=success");
+
+		res.status(201).json({
+			message: "New blog created",
+			blog,
+		});
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
@@ -223,7 +240,12 @@ const editBlog = async (req, res) => {
 			blog.reading_time = calculateReadingTime(req.body.body);
 		}
 		await blog.save();
-		res.redirect("/api/v1/blog/my-blogs?message=edited");
+		// res.redirect("/api/v1/blog/my-blogs?message=edited");
+
+		res.status(200).json({
+			message: "Blog updated successfully",
+			blog,
+		});
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
@@ -238,7 +260,11 @@ const deleteBlog = async (req, res) => {
 		});
 		if (!blog) return res.status(404).json({ error: "Blog not found" });
 
-		res.redirect("/api/v1/blog/my-blogs?message=deleted");
+		// res.redirect("/api/v1/blog/my-blogs?message=deleted");
+		res.status(200).json({
+			message: "Blog deleted",
+			blog,
+		});
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
@@ -256,7 +282,11 @@ const publishBlog = async (req, res) => {
 		blog.state = "published";
 		await blog.save();
 
-		res.redirect("/api/v1/blog/my-blogs?message=published");
+		// res.redirect("/api/v1/blog/my-blogs?message=published");
+		res.status(200).json({
+			message: "Congratulations, Blog has been published",
+			blog,
+		});
 	} catch (err) {
 		res.status(500).send(err.message);
 	}
