@@ -52,9 +52,28 @@ const getAllBlogs = async (req, res) => {
 		// Total count for pagination
 		const total = await Blog.countDocuments(query);
 
-		res.render("blog/all-blogs", {
+		//? If testing with views
+		// res.render("blog/all-blogs", {
+		// 	title: "All Blogs",
+		// 	user: req.user,
+		// 	blogs,
+		// 	totalPages: Math.ceil(total / limit),
+		// 	currentPage: Number(page),
+		// 	search,
+		// 	sort_by,
+		// 	order,
+		// });
+
+		//? Postman
+		res.status(200).json({
 			title: "All Blogs",
-			user: req.user,
+			description:
+				"Returned the first 20 blogs while being paginated so that you can get the next 20 blogs when you increment the current page parameter",
+			loggedInAs:
+				{
+					full_name: `${req.user.first_name} ${req.user.last_name}`,
+					email_address: req.user.email_address,
+				} || "No logged in user",
 			blogs,
 			totalPages: Math.ceil(total / limit),
 			currentPage: Number(page),
@@ -119,7 +138,6 @@ const getOwnBlogs = async (req, res) => {
 		res.status(500).json({ error: err.message });
 	}
 };
-
 
 // done
 const getBlog = async (req, res) => {

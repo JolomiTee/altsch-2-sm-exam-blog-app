@@ -21,10 +21,6 @@ const userSchema = new Schema({
 		type: String,
 		required: false,
 	},
-	publishedBooks: {
-		type: Array,
-		default: [],
-	},
 });
 
 userSchema.pre("save", async function (next) {

@@ -5,11 +5,17 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
 	const blogs = await Blog.find({ state: "published" })
-		.limit(5)
-		.populate("author");
-	res.render("index", {
+		.limit(10)
+		.populate("author", "-password -__v -publishedBooks");
+
+	res.status(200).json({
 		title: "Home",
-		user: req.user,
+		description: "Returned the first 10 blogs only",
+		loggedInAs:
+			{
+				full_name: `${req.user.first_name} ${req.user.last_name}`,
+				email_address: req.user.email_address,
+			} || "No logged in user",
 		blogs,
 	});
 });

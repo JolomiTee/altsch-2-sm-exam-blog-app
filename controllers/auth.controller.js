@@ -21,7 +21,14 @@ const signUp = async (req, res) => {
 
 		res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
 
-		res.redirect("/?signup=success");
+		// testing with view
+		// res.redirect("/?signup=success");
+
+		// testing with postman
+		res.status(201).json({
+			token,
+			message: "New user created",
+		});
 	} catch (err) {
 		res.status(500).json({ message: err.message });
 	}
@@ -36,7 +43,14 @@ const logIn = async (req, res) => {
 
 		const token = generateToken(user);
 		res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
-		res.redirect("/?login=success");
+
+		// res.redirect("/?login=success");
+
+		// testing with postman
+		res.status(201).json({
+			token,
+			message: "User logged In",
+		});
 	} catch (err) {
 		res.status(500).send(err.message);
 	}
@@ -44,7 +58,12 @@ const logIn = async (req, res) => {
 
 const logOut = async (req, res) => {
 	res.clearCookie("token");
-	res.redirect("/?logout=true");
+
+	// res.redirect("/?logout=true");
+
+	res.status(200).json({
+		message: "User logged out",
+	});
 };
 
 module.exports = {logIn, logOut, signUp}
