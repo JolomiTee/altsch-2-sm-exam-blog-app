@@ -3,7 +3,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const authMiddleware = require("./middleware/auth");
+const { strictAuth, optionalAuth } = require("./middleware/auth");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
@@ -24,6 +24,7 @@ connectToMongoDB();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(optionalAuth);
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
@@ -49,7 +50,7 @@ app.use("/", viewRoutes); // Done
 
 app.use("/api/v1/auth", authRoutes); // Done
 
-app.use("/api/v1/blog", authMiddleware, blogRoutes); // In progress
+app.use("/api/v1/blog", strictAuth, blogRoutes); // In progress
 
 
 app.use((err, req, res, next) => {
