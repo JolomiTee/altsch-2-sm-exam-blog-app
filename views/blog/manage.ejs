@@ -2,29 +2,29 @@
 
 	<h1>Manage Your Blogs</h1>
 
-	<!-- <form method="GET" action="/all" class="search-form">
-			<input type="text" name="search" placeholder="Search..."
-					 value="<%= typeof search !== 'undefined' ? search : '' %>" />
+	<form method="GET" action="/api/v1/blog/my-blogs" class="search-form">
+		<input type="text" name="search" placeholder="Search..."
+				 value="<%= typeof search !== 'undefined' ? search : '' %>" />
 	
-			<select name="sort_by">
-				<option value="createdAt">Date</option>
-				<option value="read_count">Read Count</option>
-				<option value="reading_time">Reading Time</option>
-			</select>
+		<select name="sort_by">
+			<option value="createdAt">Date</option>
+			<option value="read_count">Read Count</option>
+			<option value="reading_time">Reading Time</option>
+		</select>
 	
-			<select name="order">
-				<option value="desc">Descending</option>
-				<option value="asc">Ascending</option>
-			</select>
+		<select name="order">
+			<option value="desc">Descending</option>
+			<option value="asc">Ascending</option>
+		</select>
 	
-			<select name="state">
-				<option value="">All States</option>
-				<option value="published">Published</option>
-				<option value="draft">Draft</option>
-			</select>
+		<select name="state">
+			<option value="">All States</option>
+			<option value="published">Published</option>
+			<option value="draft">Draft</option>
+		</select>
 	
-			<button type="submit">Apply</button>
-		</form> -->
+		<button type="submit">Apply</button>
+	</form>
 
 	<% if (blogs.length===0) { %>
 		<p>You have not created any blogs yet.</p>
@@ -36,38 +36,43 @@
 						<h3>
 							<%= blog.title %>
 								<a href="/api/v1/blog/<%= blog._id %>/edit">Edit</a>
-								</h3>
-								<p>
-									<%= blog.description %>
-								</p>
-								<p>State: <%= blog.state %>
-								</p>
+						</h3>
+						<p>
+							<%= blog.description %>
+						</p>
+						<p>State: <%= blog.state %>
+						</p>
 
-								<% if (blog.state==="draft" ) { %>
-									<!-- Publish button -->
-									<form action="/api/v1/blog/<%= blog._id %>/publish" method="POST">
-										<button type="submit">Publish</button>
-									</form>
-									<% } %>
+						<% if (blog.state==="draft" ) { %>
+							<!-- Publish button -->
+							<form action="/api/v1/blog/<%= blog._id %>/publish" method="POST">
+								<button type="submit">Publish</button>
+							</form>
+							<% } %>
 
-										<!-- Edit form
-																														<form action="/api/v1/blog/<%= blog._id %>/edit" method="POST">
-																															<input type="text" name="title" value="<%= blog.title %>" required />
-																															<textarea name="description" required><%= blog.description %></textarea>
-																															<input type="text" name="tags" value="<%= blog.tags.join(', ') %>" />
-																															<textarea name="body" required><%= blog.body %></textarea>
-																															<button type="submit">Edit Blog</button>
-																														</form> -->
-
-										<!-- Delete button -->
-										<form action="/api/v1/blog/<%= blog._id %>/delete" method="POST"
-												onsubmit="return confirm('Are you sure?');">
-											<button type="submit">Delete</button>
-										</form>
+								<!-- Delete button -->
+								<form action="/api/v1/blog/<%= blog._id %>/delete" method="POST"
+										onsubmit="return confirm('Are you sure?');">
+									<button type="submit">Delete</button>
+								</form>
 
 					</li>
 					<% }); %>
-						</ul>
+			</ul>
+
+			<div class="pagination">
+				<% for(let i=1; i <=totalPages; i++) { %>
+					<% if (i===currentPage) { %>
+						<strong>
+							<%= i %>
+						</strong>
+						<% } else { %>
+							<a href="?page=<%= i %>">
+								<%= i %>
+							</a>
+							<% } %>
+								<% } %>
+			</div>
 
 
 			<%- include('../partials/footer') %>

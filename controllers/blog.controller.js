@@ -69,12 +69,57 @@ const getAllBlogs = async (req, res) => {
 
 const getOwnBlogs = async (req, res) => {
 	try {
-		const blogs = await Blog.find({ author: req.user._id });
-		res.render("blog/manage", { user: req.user, blogs });
+		const {
+			page = 1,
+			limit = 20,
+			search = "",
+			state = "",
+			sort_by = "createdAt",
+			order = "desc",
+		} = req.query;
+
+		// Start with filtering by current user since thats the basis of this route
+		let query = { author: req.user._id };
+
+		// the state should normally return both the published and drafts, but if FileSystemDirectoryReader, then it should return the matched state
+		if (state) {
+			query.state = state;
+		}
+
+		// then match serches for tags or titles
+		if (search) {
+			query.$or = [
+				{ title: { $regex: search, $options: "i" } },
+				{ tags: { $regex: search, $options: "i" } },
+			];
+		}
+
+		const sortOptions = {};
+		sortOptions[sort_by] = order === "asc" ? 1 : -1;
+
+		const blogs = await Blog.find(query)
+			.sort(sortOptions)
+			.skip((page - 1) * limit)
+			.limit(Number(limit));
+
+		const total = await Blog.countDocuments(query);
+
+		res.render("blog/manage", {
+			title: "My Blogs",
+			user: req.user,
+			blogs,
+			totalPages: Math.ceil(total / limit),
+			currentPage: Number(page),
+			search,
+			state,
+			sort_by,
+			order,
+		});
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
 };
+
 
 // done
 const getBlog = async (req, res) => {
