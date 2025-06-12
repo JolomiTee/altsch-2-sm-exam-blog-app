@@ -3,17 +3,40 @@
 	<h2>
 		<%= blog.title %>
 	</h2>
-	<p>By <%= blog.author.first_name %>
+<div>
+	<p>
+		<small>By:</small>
+		<%= blog.author.first_name %>
 			<%= blog.author.last_name %>
+			<small>
+				<a href="mailto:<%= blog.author.email_address %>">
+					<%= blog.author.email_address %>
+				</a>
+			</small>
 	</p>
-	<p>
-		<%= blog.description %>
+			</div>
+			
+			
+			<div>
+			
+				<small>Description:</small>
+		<p>
+			<%= blog.description %>
+		</p>
+	</div>
+	
+	<div>
+		<small>Content:</small>
+		<p>
+			<%= blog.body %>
+		</p>
+	</div>
+
+	<p><small>Read count:</small>
+		<%= blog.read_count %>
 	</p>
-	<p>
-		<%= blog.body %>
+	<p><small>Estimated reading time:</small>
+		<%= blog.reading_time %> min
 	</p>
 
-<p>Read count: <%= blog.read_count %></p>
-<p>Estimated reading time: <%= blog.reading_time %> min</p>
-
-<%- include('../partials/footer') %>
+	<%- include('../partials/footer') %>

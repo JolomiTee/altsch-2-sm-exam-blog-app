@@ -28,11 +28,17 @@ const getBlog = async (req, res) => {
 	try {
 		const blog = await Blog.findById(id).populate(
 			"author",
-			"first_name last_name email"
+			"first_name last_name email_address"
 		);
 
 		if (!blog) {
 			return res.status(404).send("Blog not found");
+		}
+
+		// i think the blog read count can only increase if this route is hit by users and it has to be a published blog else drafts would have views
+		if (blog.state === "published") {
+			blog.read_count += 1;
+			await blog.save();
 		}
 
 		res.render("blog/blog", { user: req.user, blog });
