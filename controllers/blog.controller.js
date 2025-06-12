@@ -1,16 +1,70 @@
 const Blog = require("../models/blog.model");
+const User = require("../models/user.model");
 const { calculateReadingTime } = require("../utils");
 
 // done
 const getAllBlogs = async (req, res) => {
-	const blogs = await Blog.find({ state: "published" })
-		.limit(5)
-		.populate("author");
-	res.render("blog/all-blogs", {
-		title: "All Blogs",
-		user: req.user,
-		blogs,
-	});
+	try {
+		// Query params
+		const {
+			page = 1,
+			limit = 20,
+			search = "",
+			sort_by = "createdAt", // default sort by timestamp
+			order = "desc",
+		} = req.query;
+
+		// establish that the query should only get published blogs because drafts shouldnt be accessible to everyone
+		let query = { state: "published" }; // default: only published blogs
+
+		// since we should be abel to search by author, title, tag
+		let authorIds = [];
+		if (search) {
+			// First search authors
+			const authors = await User.find({
+				$or: [
+					{ first_name: { $regex: search, $options: "i" } },
+					{ last_name: { $regex: search, $options: "i" } },
+				],
+			});
+
+			authorIds = authors.map((author) => author._id);
+
+			query.$or = [
+				{ title: { $regex: search, $options: "i" } },
+				//i cant use this since the author returns an id not an object { author: { $regex: search, $options: "i" } }, so instead i can search for the author first and pass to an array
+				{ author: { $in: authorIds } },
+				{ tags: { $regex: search, $options: "i" } },
+			];
+		}
+
+		// Sorting logic
+		const sortOptions = {};
+		sortOptions[sort_by] = order === "asc" ? 1 : -1;
+
+		// Query DB
+		const blogs = await Blog.find(query)
+			.populate("author", "-password") // exclude password
+			.sort(sortOptions)
+			.skip((page - 1) * limit)
+			.limit(Number(limit));
+
+		// Total count for pagination
+		const total = await Blog.countDocuments(query);
+
+		res.render("blog/all-blogs", {
+			title: "All Blogs",
+			user: req.user,
+			blogs,
+			totalPages: Math.ceil(total / limit),
+			currentPage: Number(page),
+			search,
+			sort_by,
+			order,
+		});
+	} catch (err) {
+		res.status(500).json({ error: err.message });
+	}
 };
 
 const getOwnBlogs = async (req, res) => {

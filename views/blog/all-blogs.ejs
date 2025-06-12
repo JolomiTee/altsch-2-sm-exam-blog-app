@@ -7,6 +7,24 @@
 		<%= title %>
 	</h2>
 
+	<form method="GET" action="/all" class="search-form">
+		<input type="text" name="search" placeholder="Search for title"
+				 value="<%= typeof search !== 'undefined' ? search : '' %>" />
+	
+		<select name="sort_by">
+			<option value="createdAt">Date</option>
+			<option value="read_count">Read Count</option>
+			<option value="reading_time">Reading Time</option>
+		</select>
+	
+		<select name="order">
+			<option value="desc">Descending</option>
+			<option value="asc">Ascending</option>
+		</select>
+	
+		<button type="submit">Apply</button>
+	</form>
+
 
 	<ul>
 		<% blogs.forEach(blog=> { %>
@@ -18,10 +36,24 @@
 					<%= blog.description %>
 				</p>
 				<small>By <%= blog.author.first_name %>
-						<%= blog.author.last_name %> - <%= blog.reading_time %> min read</small>
+						<%= blog.author.last_name %> - <%= blog.reading_time %></small>
 			</li>
 			<% }) %>
 	</ul>
+
+	<div class="pagination">
+		<% for(let i=1; i <=totalPages; i++) { %>
+			<% if (i===currentPage) { %>
+				<strong>
+					<%= i %>
+				</strong>
+				<% } else { %>
+					<a href="?page=<%= i %>">
+						<%= i %>
+					</a>
+					<% } %>
+						<% } %>
+	</div>
 
 
 <%- include('../partials/footer') %>

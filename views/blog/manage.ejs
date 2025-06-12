@@ -1,7 +1,31 @@
 <%- include('../partials/header', { title: 'My Blogs' , user }) %>
 
 	<h1>Manage Your Blogs</h1>
+
+	<!-- <form method="GET" action="/all" class="search-form">
+			<input type="text" name="search" placeholder="Search..."
+					 value="<%= typeof search !== 'undefined' ? search : '' %>" />
 	
+			<select name="sort_by">
+				<option value="createdAt">Date</option>
+				<option value="read_count">Read Count</option>
+				<option value="reading_time">Reading Time</option>
+			</select>
+	
+			<select name="order">
+				<option value="desc">Descending</option>
+				<option value="asc">Ascending</option>
+			</select>
+	
+			<select name="state">
+				<option value="">All States</option>
+				<option value="published">Published</option>
+				<option value="draft">Draft</option>
+			</select>
+	
+			<button type="submit">Apply</button>
+		</form> -->
+
 	<% if (blogs.length===0) { %>
 		<p>You have not created any blogs yet.</p>
 		<% } %>
@@ -18,14 +42,14 @@
 								</p>
 								<p>State: <%= blog.state %>
 								</p>
-								
+
 								<% if (blog.state==="draft" ) { %>
 									<!-- Publish button -->
 									<form action="/api/v1/blog/<%= blog._id %>/publish" method="POST">
 										<button type="submit">Publish</button>
 									</form>
 									<% } %>
-								
+
 										<!-- Edit form
 																														<form action="/api/v1/blog/<%= blog._id %>/edit" method="POST">
 																															<input type="text" name="title" value="<%= blog.title %>" required />
@@ -34,7 +58,7 @@
 																															<textarea name="body" required><%= blog.body %></textarea>
 																															<button type="submit">Edit Blog</button>
 																														</form> -->
-								
+
 										<!-- Delete button -->
 										<form action="/api/v1/blog/<%= blog._id %>/delete" method="POST"
 												onsubmit="return confirm('Are you sure?');">
