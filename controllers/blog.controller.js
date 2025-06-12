@@ -191,7 +191,6 @@ const createBlog = async (req, res) => {
 			state,
 			author: req.user._id,
 		});
-		// res.redirect("/?create=success");
 
 		res.status(201).json({
 			message: "New blog created",
