@@ -62,7 +62,7 @@ const createBlog = async (req, res) => {
 	}
 };
 
-
+// done
 const getEditableBlog = async (req, res) => {
 	try {
 		const blog = await Blog.findOne({
@@ -80,6 +80,7 @@ const getEditableBlog = async (req, res) => {
 	}
 };
 
+// done
 const editBlog = async (req, res) => {
 	try {
 		const blog = await Blog.findOne({
