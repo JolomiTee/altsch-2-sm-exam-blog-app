@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const authMiddleware = require("./middleware/auth");
-
+const secureRouteMiddleware = require("./middleware/secure_route");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
@@ -15,7 +15,6 @@ const { connectToMongoDB } = require("./config/connectDb");
 const authRoutes = require("./routes/auth.route");
 const blogRoutes = require("./routes/blog.route");
 const viewRoutes = require("./routes/views.route");
-const Blog = require("./models/blog.model");
 const cookieParser = require("cookie-parser");
 const PORT = 3000;
 const app = express();
@@ -52,7 +51,7 @@ app.use("/", viewRoutes); // Done
 
 app.use("/api/v1/auth", authRoutes); // Done
 
-app.use("/api/v1/blog", blogRoutes); // In progress
+app.use("/api/v1/blog", secureRouteMiddleware, blogRoutes); // In progress
 
 
 app.use((err, req, res, next) => {
