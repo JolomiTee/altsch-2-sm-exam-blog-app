@@ -69,11 +69,12 @@ const getAllBlogs = async (req, res) => {
 			title: "All Blogs",
 			description:
 				"Returned the first 20 blogs while being paginated so that you can get the next 20 blogs when you increment the current page parameter",
-			loggedInAs:
-				{
-					full_name: `${req.user.first_name} ${req.user.last_name}`,
-					email_address: req.user.email_address,
-				} || "No logged in user",
+			loggedInAs: req.user
+				? {
+						full_name: `${req.user.first_name} ${req.user.last_name}`,
+						email_address: req.user.email_address,
+				  }
+				: "No logged in user",
 			blogs,
 			totalPages: Math.ceil(total / limit),
 			currentPage: Number(page),
@@ -133,11 +134,12 @@ const getOwnBlogs = async (req, res) => {
 			title: "All Blogs",
 			description:
 				"Returned the first 20 blogs while being paginated so that you can get the next 20 blogs when you increment the current page parameter",
-			loggedInAs:
-				{
-					full_name: `${req.user.first_name} ${req.user.last_name}`,
-					email_address: req.user.email_address,
-				} || "No logged in user",
+			loggedInAs: req.user
+				? {
+						full_name: `${req.user.first_name} ${req.user.last_name}`,
+						email_address: req.user.email_address,
+				  }
+				: "No logged in user",
 			blogs,
 			totalPages: Math.ceil(total / limit),
 			currentPage: Number(page),

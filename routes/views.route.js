@@ -11,11 +11,12 @@ router.get("/", async (req, res) => {
 	res.status(200).json({
 		title: "Home",
 		description: "Returned the first 10 blogs only",
-		loggedInAs:
-			{
-				full_name: `${req.user.first_name} ${req.user.last_name}`,
-				email_address: req.user.email_address,
-			} || "No logged in user",
+		loggedInAs: req.user
+			? {
+					full_name: `${req.user.first_name} ${req.user.last_name}`,
+					email_address: req.user.email_address,
+			  }
+			: "No logged in user",
 		blogs,
 	});
 });
